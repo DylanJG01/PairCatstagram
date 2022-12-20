@@ -1,16 +1,22 @@
 // Your code here
 
 window.onload = () => {
-  start();
-  const data = getPic()
-    .then(r => r);
-  console.log(data);
-  console.log(data[0])
-  const link = data[0].url;
-  console.log(link);
-  const img = document.createElement('img');
-  img.src = link
-  document.body.appendChild(img);
+    start();
+    makeDiv("container");
+    // const mainContainer = document.getElementById("container")
+    // appendTo(mainContainer, getPic())
+    const mainContainer = document.getElementById("container")
+    getPic();
+    
+    mainContainer.style.display = "flex";
+    mainContainer.style.justifyContent = "center";
+//   const data = getPic()
+//     .then(r =>  r)
+
+//   console.log(data);
+//   console.log(data[0], "Data")
+
+  
 }
 
 
@@ -27,12 +33,31 @@ async function getPic(){
     let resp = await fetch('https://api.thecatapi.com/v1/images/search')
       let data = await resp.json();
       // console.log(data[0].url.split('.'))
-      let ext = data[0].url.split('.')[3]
-      if (ext === 'png' || ext === 'jpg') return data;
 
-      return getPic();
+    //   console.log(data[0].url)
+
+        const img = document.createElement('img');
+        img.src = data[0].url
+        const mainContainer = document.getElementById("container")
+        mainContainer.appendChild(img);
+        return data[0].url;
+
   } catch(e) {
     console.error(e);
   }
 
+}
+
+function makeDiv(id) {
+   const div = document.createElement('div')
+
+   if(id !== undefined){
+    div.id = id
+   }
+   appendTo(document.body, div)
+}
+
+function appendTo(div, ...appended){
+
+    div.append(...appended)
 }
