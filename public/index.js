@@ -7,7 +7,7 @@ window.onload = () => {
     // appendTo(mainContainer, getPic())
     const mainContainer = document.getElementById("container")
     getPic();
-    
+
     mainContainer.style.display = "flex";
     mainContainer.style.justifyContent = "center";
 //   const data = getPic()
@@ -16,7 +16,7 @@ window.onload = () => {
 //   console.log(data);
 //   console.log(data[0], "Data")
 
-  
+
 }
 
 
@@ -38,6 +38,10 @@ async function getPic(){
 
         const img = document.createElement('img');
         img.src = data[0].url
+        // img.style.aspectRatio = '16/9'
+
+        img.style.width = '800px';
+        img.style.height = '450px';
         const mainContainer = document.getElementById("container")
         mainContainer.appendChild(img);
         return data[0].url;
