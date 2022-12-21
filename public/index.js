@@ -36,7 +36,7 @@ window.addEventListener("DOMContentLoaded", event => {
 
 function start() {
   const header = document.createElement('h1');
-  header.innerText = "Kitten Pic";
+  header.innerText = "Catstagram";
   header.style.display = "flex";
   header.style.justifyContent = 'center';
   document.body.appendChild(header)
@@ -62,9 +62,8 @@ async function getPic() {
 function picContainer() {
 
   const img = document.createElement('img');
-  img.style.width = '800px';
-  img.style.height = '450px';
-  img.style.setProperty(":hover",)
+  img.style.width = '400px';
+  img.style.height = '300px';
   img.id = 'cat-pic';
   getPic()
 
@@ -72,13 +71,28 @@ function picContainer() {
   mainContainer.appendChild(img);
 }
 
-function makeDiv(id) {
+function makeDiv(id, parent = document.body) {
   const div = document.createElement('div')
 
   if (id !== undefined) {
     div.id = id
   }
-  appendTo(document.body, div)
+  appendTo(parent, div)
+}
+
+function popularity () {
+
+  makeDiv('popularity');
+  const popDiv = document.getElementById('popularity');
+
+  let score = 0;
+  popDiv.innerText= `Popularity Score: ${score}`;
+
+  makeDiv('buttons', popDiv);
+
+
+
+
 }
 
 function appendTo(div, ...appended) {
