@@ -2,22 +2,31 @@
 
 window.onload = () => {
     start();
-    makeDiv("container");
-    // const mainContainer = document.getElementById("container")
-    // appendTo(mainContainer, getPic())
-    const mainContainer = document.getElementById("container")
-    getPic();
 
+    makeDiv("container");
+    const mainContainer = document.getElementById("container")
     mainContainer.style.display = "flex";
     mainContainer.style.justifyContent = "center";
-//   const data = getPic()
-//     .then(r =>  r)
 
-//   console.log(data);
-//   console.log(data[0], "Data")
+    getPic();
+
+};
+
+window.addEventListener("DOMContentLoaded", event => {
+
+  const img = document.getElementById('cat-pic');
+
+  const changeImg = e => {
+
+    img.remove();
+    getPic();
+
+  }
+
+  img.addEventListener('click', changeImg);
 
 
-}
+});
 
 
 function start(){
@@ -42,6 +51,7 @@ async function getPic(){
 
         img.style.width = '800px';
         img.style.height = '450px';
+        img.id = 'cat-pic';
         const mainContainer = document.getElementById("container")
         mainContainer.appendChild(img);
         return data[0].url;
