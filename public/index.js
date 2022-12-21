@@ -2,24 +2,36 @@
 window.addEventListener("DOMContentLoaded", event => {
 
 
-window.onload = () => {
-    start();
-    makeDiv("container");
+  start();
+
+  makeDiv("container");
+  const mainContainer = document.getElementById("container")
+  mainContainer.style.display = "flex";
+  mainContainer.style.justifyContent = "center";
+
+  picContainer();
+
+  let img = document.getElementById('container');
+
+  const changeImg = e => {
+
+
+    // document.getElementById("container").remove();
+    // makeDiv("container");
     // const mainContainer = document.getElementById("container")
-    // appendTo(mainContainer, getPic())
-    const mainContainer = document.getElementById("container")
+    // mainContainer.style.display = "flex";
+    // mainContainer.style.justifyContent = "center";
+
+    // document.querySelector("img").remove()
+
     getPic();
-    
-    mainContainer.style.display = "flex";
-    mainContainer.style.justifyContent = "center";
-//   const data = getPic()
-//     .then(r =>  r)
 
-//   console.log(data);
-//   console.log(data[0], "Data")
+  }
 
-  
-}
+  img.addEventListener('click', changeImg);
+
+
+});
 
 
 function start() {
@@ -33,16 +45,13 @@ function start() {
 async function getPic() {
   try {
     let resp = await fetch('https://api.thecatapi.com/v1/images/search')
-      let data = await resp.json();
-      // console.log(data[0].url.split('.'))
-
-    //   console.log(data[0].url)
-
-        const img = document.createElement('img');
-        img.src = data[0].url
-        const mainContainer = document.getElementById("container")
-        mainContainer.appendChild(img);
-        return data[0].url;
+    let data = await resp.json();
+    // console.log(data[0].url.split('.'))
+    //console.log(data[0].url)
+    // console.log(mainContainer)
+    const img = document.getElementById("cat-pic")
+    img.src = data[0].url
+    // return data[0].url;
 
   } catch (e) {
     console.error(e);
