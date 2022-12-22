@@ -9,7 +9,11 @@ window.addEventListener("DOMContentLoaded", event => {
   mainContainer.style.display = "flex";
   mainContainer.style.justifyContent = "center";
 
-  picContainer();
+  const hasUrl = localStorage.getItem('url');
+  const hasVoteCount = localStorage.getItem('votes');
+
+
+  picContainer(hasUrl, hasVoteCount);
   popularity();
   addComment();
   commentBox();
@@ -25,23 +29,22 @@ window.addEventListener("DOMContentLoaded", event => {
 
 
 
-  const popContainer = document.getElementById('popularity');
   const countContainer = document.getElementById('pop-count');
   const upButton = document.getElementById('upvote-button');
   const downButton = document.getElementById('downvote-button');
 
   const upvote = e => {
-    popContainer.dataset.value++;
+    img.dataset.value++;
 
-    countContainer.innerText = `Popularity Score: ${popContainer.dataset.value}`
+    countContainer.innerText = `Popularity Score: ${img.dataset.votes}`
     // e.stopPropagation();
   }
 
   const downvote = e => {
-    let upVoteCount = +popContainer.dataset.value;
+    let upVoteCount = +img.dataset.votes;
     upVoteCount += 2;
-    // popContainer.dataset.value--;
-    popContainer.dataset.value = upVoteCount;
+    // img.dataset.value--;
+    img.dataset.value = upVoteCount;
     countContainer.innerText = `Popularity Score: ${upVoteCount}`
     alert("what's wrong you")
   }
@@ -82,12 +85,13 @@ async function getPic() {
   try {
     let resp = await fetch('https://api.thecatapi.com/v1/images/search')
     let data = await resp.json();
-    // console.log(data[0].url.split('.'))
-    //console.log(data[0].url)
-    // console.log(mainContainer)
+
+    const url = data[0].url;
+
     const img = document.getElementById("cat-pic")
-    img.src = data[0].url
-    // return data[0].url;
+    img.src = url;
+    localStorage.setItem('url', url);
+
 
   } catch (e) {
     console.error(e);
@@ -95,13 +99,24 @@ async function getPic() {
 
 }
 
-function picContainer() {
+function picContainer(pastUrl = null, hasVoteCount) {
 
   const img = document.createElement('img');
   img.style.width = '400px';
   img.style.height = '300px';
   img.id = 'cat-pic';
-  getPic();
+  let count;
+  hasVoteCount === null ? count = 0: count = hasVoteCount;
+  img.setAttribute('data-votes', count);
+
+
+  if (pastUrl) {
+    img.src = pastUrl;
+    img.dataset.votes = hasVoteCount;
+  } else {
+    getPic();
+    img.dataset.votes = 0;
+  }
 
   const mainContainer = document.getElementById("container")
   mainContainer.appendChild(img);
@@ -124,11 +139,11 @@ function popularity () {
 
   const popDiv = makeDiv('popularity');
 
-  popDiv.setAttribute('data-value', 0)
+  const count = document.getElementById('container').dataset.votes;
 
 
   const countDiv = makeDiv('pop-count', popDiv)
-  countDiv.innerText= `Popularity Score: ${popDiv.dataset.value}`;
+  countDiv.innerText= `Popularity Score: ${count}`;
 
   const buttonDiv = makeDiv('buttons', popDiv);
 
