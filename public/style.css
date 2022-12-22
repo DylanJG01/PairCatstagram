@@ -16,3 +16,14 @@
 #comments-list {
     list-style: none;
 }
+
+
+#container {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    align-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+  }

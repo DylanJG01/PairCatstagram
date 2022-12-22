@@ -34,19 +34,23 @@ window.addEventListener("DOMContentLoaded", event => {
   const downButton = document.getElementById('downvote-button');
 
   const upvote = e => {
-    img.dataset.value++;
 
-    countContainer.innerText = `Popularity Score: ${img.dataset.votes}`
-    // e.stopPropagation();
+    let voteCount = +localStorage.getItem('votes');
+    voteCount++;
+
+    localStorage.setItem('votes', voteCount)
+    countContainer.innerText = `Popularity Score: ${voteCount}`
+    e.stopPropagation();
   }
 
   const downvote = e => {
-    let upVoteCount = +img.dataset.votes;
-    upVoteCount += 2;
+    let voteCount = +localStorage.getItem('votes');
+    voteCount += 2;
     // img.dataset.value--;
-    img.dataset.value = upVoteCount;
-    countContainer.innerText = `Popularity Score: ${upVoteCount}`
+    localStorage.setItem('votes', voteCount)
+    countContainer.innerText = `Popularity Score: ${voteCount}`
     alert("what's wrong you")
+    e.stopPropagation();
   }
 
   upButton.addEventListener('click', upvote);
@@ -92,6 +96,11 @@ async function getPic() {
     img.src = url;
     localStorage.setItem('url', url);
 
+    const popDiv = document.getElementById('popularity')
+    localStorage.setItem('votes', 0);
+    // popDiv.innerText = "Popularity Score: 0 ";
+    popularity();
+
 
   } catch (e) {
     console.error(e);
@@ -107,25 +116,29 @@ function picContainer(pastUrl = null, hasVoteCount) {
   img.id = 'cat-pic';
   let count;
   hasVoteCount === null ? count = 0: count = hasVoteCount;
-  img.setAttribute('data-votes', count);
+  localStorage.setItem('votes', count);
 
 
   if (pastUrl) {
     img.src = pastUrl;
-    img.dataset.votes = hasVoteCount;
+
   } else {
     getPic();
-    img.dataset.votes = 0;
+    localStorage.removeItem('votes');
   }
 
   const mainContainer = document.getElementById("container")
   mainContainer.appendChild(img);
+  mainContainer.style.flexDirection = 'column';
+
+  makeDiv('empty');
 }
 
 function makeDiv(id, parent = document.body) {
   const div = document.createElement('div')
   div.style.display = 'flex';
-  div.style.justifyContent = 'center';
+  div.style.justifyContent = 'space-around';
+
 
   if (id !== undefined) {
     div.id = id
@@ -137,9 +150,15 @@ function makeDiv(id, parent = document.body) {
 
 function popularity () {
 
-  const popDiv = makeDiv('popularity');
+  const prev = document.getElementById('popularity');
 
-  const count = document.getElementById('container').dataset.votes;
+
+  const img = document.getElementById('container');
+
+  const popDiv = makeDiv('popularity', img);
+  popDiv.style.flexDirection = 'column';
+
+  const count = localStorage.getItem('votes')
 
 
   const countDiv = makeDiv('pop-count', popDiv)
@@ -158,6 +177,7 @@ function popularity () {
 
 
   buttonDiv.append(upvote, downvote);
+  popDiv.appendChild(buttonDiv);
 
 }
 
