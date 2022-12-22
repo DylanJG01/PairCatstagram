@@ -46,7 +46,7 @@ window.addEventListener("DOMContentLoaded", event => {
   const downvote = e => {
     let voteCount = +localStorage.getItem('votes');
     voteCount += 2;
-    // img.dataset.value--;
+    // voteCount--;
     localStorage.setItem('votes', voteCount)
     countContainer.innerText = `Popularity Score: ${voteCount}`
     alert("what's wrong you")
@@ -69,6 +69,14 @@ window.addEventListener("DOMContentLoaded", event => {
     const ul = document.getElementById('comments-list');
 
     ul.appendChild(newLi);
+
+    const hasComments = localStorage.getItem('comments');
+
+  if (hasComments) {
+    localStorage.setItem('comments', hasComments + '=' + comment.value)
+  } else {
+    localStorage.setItem('comments', comment.value);
+  }
 
   }
 
@@ -96,10 +104,11 @@ async function getPic() {
     img.src = url;
     localStorage.setItem('url', url);
 
-    const popDiv = document.getElementById('popularity')
+    document.querySelector('#pop-count').innerText = 'Popularity Score: 0'
     localStorage.setItem('votes', 0);
-    // popDiv.innerText = "Popularity Score: 0 ";
-    popularity();
+
+    localStorage.removeItem('comments');
+    document.querySelectorAll('li').forEach(li => li.remove());
 
 
   } catch (e) {
@@ -124,14 +133,13 @@ function picContainer(pastUrl = null, hasVoteCount) {
 
   } else {
     getPic();
-    localStorage.removeItem('votes');
+    // localStorage.removeItem('votes');
   }
 
   const mainContainer = document.getElementById("container")
   mainContainer.appendChild(img);
   mainContainer.style.flexDirection = 'column';
 
-  makeDiv('empty');
 }
 
 function makeDiv(id, parent = document.body) {
@@ -149,8 +157,6 @@ function makeDiv(id, parent = document.body) {
 }
 
 function popularity () {
-
-  const prev = document.getElementById('popularity');
 
 
   const img = document.getElementById('container');
@@ -207,8 +213,23 @@ function commentBox () {
 
   const box = makeDiv('comments-box');
 
+  const pastComments = localStorage.getItem('comments');
+
   const ul = document.createElement('ul');
   ul.id = 'comments-list';
+
+  if (pastComments) {
+    const arr = pastComments.split('=');
+
+    arr.forEach(comment => {
+
+      const li = document.createElement('li');
+      li.innerText = comment;
+      li.setAttribute('class', 'comments');
+
+      ul.appendChild(li);
+    });
+  }
 
   box.appendChild(ul);
 
