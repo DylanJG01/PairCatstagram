@@ -51,13 +51,13 @@ window.addEventListener("DOMContentLoaded", event => {
 
 
   const submitButton = document.getElementById('comment-submit');
+  const comment = document.getElementById('comment-text');
 
   const submitComment = e => {
-    e.preventDefault();
 
     const newLi = document.createElement('li');
     newLi.setAttribute('class', 'comments');
-    newLi.innerText = document.getElementById('comment-input').value;
+    newLi.innerText = comment.value;
 
     const ul = document.getElementById('comments-list');
 
@@ -159,7 +159,7 @@ function addComment () {
   input.type = 'text';
   input.name = 'comments';
   input.placeholder = 'Add a comment...';
-  input.id = 'comment-input';
+  input.id = 'comment-text';
 
   button.innerText = 'Submit';
   button.id = 'comment-submit';
