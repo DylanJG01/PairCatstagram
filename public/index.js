@@ -99,8 +99,12 @@ function start() {
   header.style.display = "flex";
   header.style.justifyContent = 'center';
   header.style.color = random_hex_color_code();
-  header.style.background = "white";  
+ 
+  header.style.backgroundSize = "150px";
+  header.style.backgroundImage = 'url(/images/paw-prints.jpg)'
+
   document.body.appendChild(header)
+
 }
 
 async function getPic() {
