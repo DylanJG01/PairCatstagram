@@ -2,3 +2,17 @@
 #container :hover {
     cursor: pointer;
 }
+
+
+#comments-box {
+    border: 1px solid black;
+
+    margin: 10px;
+    height: 45vh;
+    /* width: 90%; */
+    overflow: auto;
+}
+
+#comments-list {
+    list-style: none;
+}
