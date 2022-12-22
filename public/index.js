@@ -1,4 +1,9 @@
 // Your code here
+const random_hex_color_code = () => {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+};
+
 window.addEventListener("DOMContentLoaded", event => {
 
 
@@ -93,6 +98,8 @@ function start() {
   header.innerText = "Catstagram";
   header.style.display = "flex";
   header.style.justifyContent = 'center';
+  header.style.color = random_hex_color_code();
+  header.style.background = "white";  
   document.body.appendChild(header)
 }
 
