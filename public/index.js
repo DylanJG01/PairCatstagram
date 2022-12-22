@@ -78,6 +78,9 @@ window.addEventListener("DOMContentLoaded", event => {
     localStorage.setItem('comments', comment.value);
   }
 
+  const text = document.getElementById("comment-text");
+  text.value = "";
+
   }
 
   submitButton.addEventListener('click', submitComment);
@@ -145,7 +148,8 @@ function picContainer(pastUrl = null, hasVoteCount) {
 function makeDiv(id, parent = document.body) {
   const div = document.createElement('div')
   div.style.display = 'flex';
-  div.style.justifyContent = 'space-around';
+  div.style.justifyContent = 'center';
+  div.style.margin = "5px" 
 
 
   if (id !== undefined) {
